@@ -1,6 +1,5 @@
 use libc::{c_int, tcgetattr, tcsetattr, termios, ECHO, ICANON, TCSANOW};
-use std::io;
-use std::io::Read;
+use std::io::{self, Read};
 use std::os::unix::io::AsRawFd;
 
 /// Permite la entrada directa a la aplicación.
