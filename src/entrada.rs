@@ -1,3 +1,8 @@
+//! Funciones para manejar y reconocer la entrada directa de la terminal.
+//! Esté módulo se usa siguiendo este esquema:
+//! 1º habilitar:    activar la entrada directa.
+//! 2º pedir:        reconocer la 'Tecla' pulsada en la terminal.
+//! 3º deshabilitar: desactivar la entrada directa cuando ya no se requiera más.
 use libc::{c_int, tcgetattr, tcsetattr, termios, ECHO, ICANON, TCSANOW};
 use std::io::{self, Read};
 use std::os::unix::io::AsRawFd;
@@ -11,7 +16,7 @@ pub fn habilitar() -> io::Result<()> {
     Ok(())
 }
 
-/// Retorna la entrada a la consola.
+/// Retorna la entrada directa a la consola.
 pub fn deshabilitar() -> io::Result<()> {
     let stdin_fd = io::stdin().as_raw_fd();
     let mut termios = tomar_config(stdin_fd)?;
@@ -44,7 +49,7 @@ fn aplicar_config(fd: c_int, termios: &termios) -> io::Result<()> {
     Ok(())
 }
 
-/// Espera a recibir una entrada (tecla).
+/// Espera hasta recibir una entrada directa (tecla).
 pub fn pedir() -> Tecla {
     let mut buffer = [0; 8];
     if let Ok(n) = std::io::stdin().read(&mut buffer) {
