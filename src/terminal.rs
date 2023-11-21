@@ -1,5 +1,5 @@
 //! Funciones para manejar y reconocer los elementos de una terminal.
-use libc::{ioctl, winsize, STDOUT_FILENO, TIOCGWINSZ, geteuid};
+use libc::{geteuid, ioctl, winsize, STDOUT_FILENO, TIOCGWINSZ};
 use std::{mem, os::fd::AsRawFd};
 
 /// Mira si la salida estándar actual es una terminal.
@@ -39,4 +39,3 @@ pub fn hay_privilegios() -> bool {
         false
     }
 }
-
