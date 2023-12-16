@@ -54,14 +54,35 @@ pub fn pedir() -> Tecla {
     let mut buffer = [0; 8];
     if let Ok(n) = std::io::stdin().read(&mut buffer) {
         if n != 0 {
+            println!("{buffer:?}");
             return match buffer {
-                [9, 0, 0, 0, 0, 0, 0, 0] => Tecla::Tabulador,
-                [10, 0, 0, 0, 0, 0, 0, 0] => Tecla::Enter,
+                [9, 0, 0, 0, 0, 0, 0, 0] => Tecla::Tab,
+                [10, 0, 0, 0, 0, 0, 0, 0] => Tecla::Intro,
                 [27, 0, 0, 0, 0, 0, 0, 0] => Tecla::Escape,
                 [27, 79, 80, 0, 0, 0, 0, 0] => Tecla::F(1),
                 [27, 79, 81, 0, 0, 0, 0, 0] => Tecla::F(2),
                 [27, 79, 82, 0, 0, 0, 0, 0] => Tecla::F(3),
                 [27, 79, 83, 0, 0, 0, 0, 0] => Tecla::F(4),
+                [27, 91, 49, 53, 126, 0, 0, 0] => Tecla::F(5),
+                [27, 91, 49, 55, 126, 0, 0, 0] => Tecla::F(6),
+                [27, 91, 49, 56, 126, 0, 0, 0] => Tecla::F(7),
+                [27, 91, 49, 57, 126, 0, 0, 0] => Tecla::F(8),
+                [27, 91, 50, 48, 126, 0, 0, 0] => Tecla::F(9),
+                [27, 91, 50, 49, 126, 0, 0, 0] => Tecla::F(10),
+                [27, 91, 50, 51, 126, 0, 0, 0] => Tecla::F(11),
+                [27, 91, 50, 52, 126, 0, 0, 0] => Tecla::F(12),
+                [27, 91, 49, 59, 50, 80, 0, 0] => Tecla::FS(1),
+                [27, 91, 49, 59, 50, 81, 0, 0] => Tecla::FS(2),
+                [27, 91, 49, 59, 50, 82, 0, 0] => Tecla::FS(3),
+                [27, 91, 49, 59, 50, 83, 0, 0] => Tecla::FS(4),
+                [27, 91, 49, 53, 59, 50, 126, 0] => Tecla::FS(5),
+                [27, 91, 49, 55, 59, 50, 126, 0] => Tecla::FS(6),
+                [27, 91, 49, 56, 59, 50, 126, 0] => Tecla::FS(7),
+                [27, 91, 49, 57, 59, 50, 126, 0] => Tecla::FS(8),
+                [27, 91, 50, 48, 59, 50, 126, 0] => Tecla::FS(9),
+                [27, 91, 50, 49, 59, 50, 126, 0] => Tecla::FS(10),
+                [27, 91, 50, 51, 59, 50, 126, 0] => Tecla::FS(11),
+                [27, 91, 50, 52, 59, 50, 126, 0] => Tecla::FS(12),
                 [27, 91, 52, 126, 0, 0, 0, 0] => Tecla::Fin,
                 [27, 91, 53, 126, 0, 0, 0, 0] => Tecla::Retroceder,
                 [27, 91, 54, 126, 0, 0, 0, 0] => Tecla::Avanzar,
@@ -71,12 +92,13 @@ pub fn pedir() -> Tecla {
                 [27, 91, 68, 0, 0, 0, 0, 0] => Tecla::Izquierda,
                 [27, 91, 72, 0, 0, 0, 0, 0] => Tecla::Inicio,
                 [27, 91, 80, 0, 0, 0, 0, 0] => Tecla::Suprimir,
+                [27, 91, 90, 0, 0, 0, 0, 0] => Tecla::TabInv,
                 [127, 0, 0, 0, 0, 0, 0, 0] => Tecla::Borrar,
                 _ => Tecla::Char(letra(buffer)),
             };
         }
     }
-    Tecla::Nada
+    Tecla::Char('\0')
 }
 
 fn letra(buf: [u8; 8]) -> char {
@@ -86,10 +108,9 @@ fn letra(buf: [u8; 8]) -> char {
 pub enum Tecla {
     Char(char),
     Escape,
-    Enter,
-    Control,
-    Tabulador,
-    F(u8),
+    Intro,
+    Tab,
+    TabInv,
     Suprimir,
     Borrar,
     Arriba,
@@ -100,17 +121,6 @@ pub enum Tecla {
     Fin,
     Avanzar,
     Retroceder,
-    Nada,
+    F(u8),
+    FS(u8),
 }
-//BackTab
-//Insert
-//Null
-//CapsLock
-//ScrollLock
-//NumLock
-//PrintScreen
-//Pause
-//Menu
-//KeypadBegin
-//Media(MediaKeyCode)
-//Modifier(ModifierKeyCode)

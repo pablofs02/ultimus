@@ -25,7 +25,7 @@ impl Prompt {
         stdout().flush().unwrap();
         loop {
             match entrada::pedir() {
-                Tecla::Enter => {
+                Tecla::Intro => {
                     println!();
                     break;
                 }
