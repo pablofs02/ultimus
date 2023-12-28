@@ -54,7 +54,6 @@ pub fn pedir() -> Tecla {
     let mut buffer = [0; 8];
     if let Ok(n) = std::io::stdin().read(&mut buffer) {
         if n != 0 {
-            println!("{buffer:?}");
             return match buffer {
                 [9, 0, 0, 0, 0, 0, 0, 0] => Tecla::Tab,
                 [10, 0, 0, 0, 0, 0, 0, 0] => Tecla::Intro,
